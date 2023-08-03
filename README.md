@@ -1,2 +1,2 @@
-# bachelor-thesis-project
-Low-power Wake word detection on Android (B.Sc.).
+# Low-power Wake word detection on Android (B.Sc.).
+Training a compact TensorFlow model for performing wake word detection on a custom dataset. Exporting the model to TensorFlow Lite and building an Android service that performs wake word detection using the TFLite model. Evaluating the service in terms of accuracy and false positive rate. Investigating alternative network training approaches, e.g. by using knowledge distillation.
