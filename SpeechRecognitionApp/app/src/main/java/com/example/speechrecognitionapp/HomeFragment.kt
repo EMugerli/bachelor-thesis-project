@@ -80,6 +80,7 @@ class HomeFragment : Fragment(), RecordingCallback {
             audioRecordingService = binder.service
             audioRecordingService?.setCallback(this@HomeFragment)
             isServiceBound = true
+            audioRecordingService?.background()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -94,6 +95,19 @@ class HomeFragment : Fragment(), RecordingCallback {
         if (isServiceBound) {
             activity?.unbindService(serviceConnection)
             isServiceBound = false
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        if (isServiceBound) {
+            if (audioRecordingService?.isRecording!!) {
+                Log.d(TAG, "Foregrounding service")
+                audioRecordingService?.foreground()
+            }
+        } else {
+            stopService()
         }
     }
 

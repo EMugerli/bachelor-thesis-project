@@ -68,6 +68,8 @@ class AudioRecordingService : Service() {
 
     private var callback: RecordingCallback? = null
 
+    private var isBackground = true
+
     inner class RunServiceBinder : Binder() {
         val service: AudioRecordingService
             get() = this@AudioRecordingService
@@ -151,6 +153,7 @@ class AudioRecordingService : Service() {
     }
 
     private fun updateNotification(label: String) {
+        if (isBackground) return
         if (notificationBuilder == null) {
             return
         } else {
@@ -361,6 +364,17 @@ class AudioRecordingService : Service() {
 //        )
 //        recognitionThread?.start()
 //    }
+
+    fun foreground() {
+        notification = createNotification()
+        startForeground(NOTIFICATION_ID, notification)
+        isBackground = false
+    }
+
+    fun background() {
+        isBackground = true
+        stopForeground(STOP_FOREGROUND_DETACH)
+    }
 
     private fun stopRecording() {
         isRecording = false
